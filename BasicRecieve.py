@@ -12,5 +12,5 @@ while (True):
     #print("Checking")
     if SerialPort.any():
         data=SerialPort.read()
-        print(data)
+        print(ord(data))
     
