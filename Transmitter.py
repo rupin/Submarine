@@ -41,7 +41,7 @@ while(True):
     time.sleep(0.5)
     
     sink_touch_value=sink_touch.read()
-    if(sink_touch<threshold): # means someone touch the pin
+    if(sink_touch_value<threshold): # means someone touch the pin
         SerialPort.write(bytes([sink_code]))
         continue
         
