@@ -1,4 +1,4 @@
-from machine import Pin, UART, TouchPad
+from machine import Pin, UART, TouchPad, ADC
 import time
 
 #relay pins
@@ -12,10 +12,12 @@ forward_thruster=14
 left_thruster=27
 
 right_thruster=32
-led=33
+led_pin=33
 
 tank_empty_probe=25
 tank_full_probe=15
+
+
 
 
 
@@ -23,9 +25,9 @@ tank_full_probe=15
 sink_code=192
 rise_code=3
 forward_code=8
-left_code=4
-right_code=16
-led_code=32
+left_code=16
+right_code=32
+led_code=4
 
 off_code=0
 
@@ -56,8 +58,16 @@ left=Pin(left_thruster, Pin.OUT)
 right=Pin(right_thruster, Pin.OUT)
 left=Pin(left_thruster, Pin.OUT)
 
+led=Pin(led_pin, Pin.OUT)
+
+# Set up ADC for water level sensor
+tank_empty = ADC(Pin(tank_empty_probe))
+tank_empty.atten(ADC.ATTN_11DB)
 
 
+# Set up ADC for water level sensor
+tank_full = ADC(Pin(tank_full_probe))
+tank_full.atten(ADC.ATTN_11DB)
 
 
 
@@ -68,7 +78,8 @@ while(True):
         recievedCommand=ord(data)
         print(recievedCommand)
         
-        
+        tank_full_signal = tank_full.read()
+        tank_empty_signal = tank_empty.read() 
         
         if(recievedCommand==sink_code):
             
